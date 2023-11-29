@@ -2,14 +2,17 @@ package br.com.trailB.servicos.implementacoes;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.trailB.entidates.Curso;
 import br.com.trailB.entidates.Usuario;
 import br.com.trailB.entidates.dtos.CursoDTO;
 import br.com.trailB.entidates.dtos.UsuarioDTO;
 import br.com.trailB.excecoes.NaoEncontradoExcecao;
+import br.com.trailB.repositorios.CursoRepositorio;
 import br.com.trailB.repositorios.UsuarioRepositorio;
 import br.com.trailB.servicos.interfaces.UsuarioServico;
 
@@ -18,6 +21,9 @@ public class UsuarioServicoImpl implements UsuarioServico {
 
 	@Autowired
 	private UsuarioRepositorio usuarioRepositorio;
+	
+	@Autowired
+	private CursoRepositorio cursoRepositorio;
 
 	@Override
 	public void salvar(Usuario usuario) throws NaoEncontradoExcecao {
@@ -113,9 +119,30 @@ public class UsuarioServicoImpl implements UsuarioServico {
 	}
 
 	@Override
-	public Optional<CursoDTO> buscarPorEmail(String email) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+	public Optional<List<CursoDTO>> buscarCursosPorCpf(String cpf) {
+		try {
+			return this.usuarioRepositorio.findCursosByCpf(cpf)
+	                .map(cursos -> cursos.stream().map(Curso::toDto).collect(Collectors.toList()));
+			
+		} catch (Exception e) {
+			System.out.println("Problema ao carregar cursos do usuario");
+			
+			return null;
+		}
+	}
+
+	@Override
+	public void adicionarCursos(Long idUsuario, List<Long> idsCursos) throws NaoEncontradoExcecao {
+		Optional<Usuario> usuarioOptional = usuarioRepositorio.findById(idUsuario);
+        if (usuarioOptional.isPresent()) {
+            Usuario usuario = usuarioOptional.get();
+            List<Curso> cursos = cursoRepositorio.findAllById(idsCursos);
+            usuario.getCursos().addAll(cursos);
+            usuarioRepositorio.save(usuario);
+        } else {
+            throw new NaoEncontradoExcecao("Usuário não encontrado.");
+        }
+		
 	}
 
 	
