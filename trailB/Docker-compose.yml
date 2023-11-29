@@ -1,0 +1,23 @@
+services:
+  # Serviço para o aplicativo Spring Boot
+  spring-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql-db
+
+  # Serviço para o banco de dados MySQL
+  mysql-db:
+    build:
+      context: .
+      dockerfile: Dockerfile-mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: trailb
+      MYSQL_USER: admntrailb
+      MYSQL_PASSWORD: trailb1.2.3

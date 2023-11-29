@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.trailB.entidates.Usuario;
+import br.com.trailB.entidates.dtos.CursoDTO;
 import br.com.trailB.entidates.dtos.UsuarioDTO;
+import br.com.trailB.excecoes.NaoEncontradoExcecao;
 import br.com.trailB.servicos.implementacoes.UsuarioServicoImpl;
 import io.swagger.annotations.ApiOperation;
 
@@ -32,6 +34,8 @@ public class UsuarioController {
 	
 	@Autowired
 	private UsuarioServicoImpl servico;
+	
+
 
 	
 	@ApiOperation(value = "Persisitr dados no banco")
@@ -125,5 +129,26 @@ public class UsuarioController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(usuarioDTO);
 
 	}
+	
+	 @ApiOperation(value = "Retornar todos os cursos atribuídos a um usuário por CPF")
+	    @GetMapping("/{cpf}/cursos")
+	    public ResponseEntity<List<CursoDTO>> getCursosByCpf(@PathVariable String cpf) {
+		 
+	        Optional<List<CursoDTO>> cursos = this.servico.buscarCursosPorCpf(cpf);
+	        
+	        return cursos.map(cursoList -> ResponseEntity.status(HttpStatus.OK).body(cursoList))
+	                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+	    }
+	 
+	 @ApiOperation(value = "Adicionar cursos a um usuário")
+	    @PostMapping("/{id}/cursos")
+	    public ResponseEntity<String> adicionarCursos(@PathVariable Long id, @RequestBody List<Long> idsCursos) {
+	        try {
+	            servico.adicionarCursos(id, idsCursos);
+	            return ResponseEntity.status(HttpStatus.OK).body("Cursos adicionados com sucesso.");
+	        } catch (NaoEncontradoExcecao e) {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+	        }
+	    }
 
 }

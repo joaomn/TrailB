@@ -16,10 +16,12 @@ public interface UsuarioServico {
 
 	Optional<Usuario> buscarPessoa(Long id);
 
-	 void  update(Long id, UsuarioDTO usuarioDto);
+	void update(Long id, UsuarioDTO usuarioDto);
 
 	void delete(Long id) throws NaoEncontradoExcecao;
 
-	Optional<CursoDTO> buscarPorEmail(String email);
+	public void adicionarCursos(Long idUsuario, List<Long> idsCursos)throws NaoEncontradoExcecao;
+
+	Optional<List<CursoDTO>> buscarCursosPorCpf(String cpf);
 
 }
