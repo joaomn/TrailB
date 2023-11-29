@@ -145,6 +145,19 @@ public class UsuarioServicoImpl implements UsuarioServico {
 		
 	}
 
+	@Override
+	public String gerarSenhaAleatoria(int length) {
+		String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	    StringBuilder senha = new StringBuilder();
+
+	    for (int i = 0; i < length; i++) {
+	        int index = (int) (Math.random() * caracteres.length());
+	        senha.append(caracteres.charAt(index));
+	    }
+
+	    return senha.toString();
+	}
+
 	
 
 	

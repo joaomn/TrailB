@@ -23,5 +23,7 @@ public interface UsuarioServico {
 	public void adicionarCursos(Long idUsuario, List<Long> idsCursos)throws NaoEncontradoExcecao;
 
 	Optional<List<CursoDTO>> buscarCursosPorCpf(String cpf);
+	
+	public String gerarSenhaAleatoria(int length);
 
 }

@@ -24,6 +24,7 @@ import br.com.trailB.entidates.Usuario;
 import br.com.trailB.entidates.dtos.CursoDTO;
 import br.com.trailB.entidates.dtos.UsuarioDTO;
 import br.com.trailB.excecoes.NaoEncontradoExcecao;
+import br.com.trailB.servicos.EmailServico;
 import br.com.trailB.servicos.implementacoes.UsuarioServicoImpl;
 import io.swagger.annotations.ApiOperation;
 
@@ -35,6 +36,8 @@ public class UsuarioController {
 	@Autowired
 	private UsuarioServicoImpl servico;
 	
+	@Autowired
+	private EmailServico email;
 
 
 	
@@ -47,6 +50,8 @@ public class UsuarioController {
 		try {
 
 			this.servico.salvar(usuario);
+			
+			
 
 		} catch (Exception e) {
 			dto.setMessage(e.getMessage());
@@ -150,5 +155,40 @@ public class UsuarioController {
 	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 	        }
 	    }
+	 
+	 @ApiOperation(value = "Gerar e definir uma nova senha para o usuário")
+	 @PostMapping("/{id}/senha")
+	 public ResponseEntity<UsuarioDTO> gerarESetarNovaSenha(@PathVariable Long id) {
+	     Optional<Usuario> usuarioOptional = this.servico.buscarPessoa(id);
+
+	     if (usuarioOptional.isPresent()) {
+	         Usuario usuario = usuarioOptional.get();
+	         String novaSenha = servico.gerarSenhaAleatoria(8); 
+	         usuario.setPassword(novaSenha);
+	         try {
+				servico.salvar(usuario);
+			} catch (NaoEncontradoExcecao e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+	         
+
+	         try {
+	             email.enviar(usuario.getEmail(), novaSenha);
+	         } catch (Exception e) {
+	        	 UsuarioDTO usuarioDTO = new UsuarioDTO();
+	     		usuarioDTO.setMessage("Erro interno para recuperar senha");
+	             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(usuarioDTO);
+	         }
+
+	         return ResponseEntity.status(HttpStatus.OK).body(usuario.toDto());
+	     }
+
+	     UsuarioDTO usuarioDTO = new UsuarioDTO();
+	     usuarioDTO.setMessage("Usuário não encontrado");
+
+	     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(usuarioDTO);
+	 }
 
 }
