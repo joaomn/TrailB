@@ -15,6 +15,8 @@ public interface UsuarioServico {
 	List<Usuario> buscartudo();
 
 	Optional<Usuario> buscarPessoa(Long id);
+	
+	Optional<Usuario> buscarPessoaPorCpf(String cpf);
 
 	void update(Long id, UsuarioDTO usuarioDto);
 

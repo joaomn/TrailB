@@ -27,6 +27,7 @@ public class Aula {
 	@NotBlank(message = "o campo de titulo e obrigatorio")
 	private String titulo;
 	
+	
 	public AulaDTO toDto() {
 		return new AulaDTO(this);
 	}
