@@ -111,20 +111,18 @@ public class ProvaServicoImpl implements ProvaServico {
 
 	@Override
 	public int contarRespostasCorretas(List<Pergunta> perguntas, List<String> respostas) {
-		try {
-			 int respostasCorretas = 0;
+		 int respostasCorretas = 0;
 
-			    for (Pergunta pergunta : perguntas) {
+	        for (int i = 0; i < perguntas.size(); i++) {
+	            Pergunta pergunta = perguntas.get(i);
+	            String respostaAluno = respostas.get(i);
 
-			        if (respostas.stream().anyMatch(resp -> resp.contentEquals(pergunta.getAlternativaCorreta()))) {
-			            respostasCorretas++;
-			        }
-			    }
+	            if (respostaAluno.equalsIgnoreCase(pergunta.getAlternativaCorreta())) {
+	                respostasCorretas++;
+	            }
+	        }
 
-			    return respostasCorretas;
-		} catch (Exception e) {
-			return -1;
-		}
-	}
+	        return respostasCorretas;
+	    }
 
 }
