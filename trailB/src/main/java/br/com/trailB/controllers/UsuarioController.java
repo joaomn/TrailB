@@ -156,10 +156,10 @@ public class UsuarioController {
 	        }
 	    }
 	 
-	 @ApiOperation(value = "Gerar e definir uma nova senha para o usuário")
-	 @PostMapping("/{id}/senha")
-	 public ResponseEntity<UsuarioDTO> gerarESetarNovaSenha(@PathVariable Long id) {
-	     Optional<Usuario> usuarioOptional = this.servico.buscarPessoa(id);
+	 @ApiOperation(value = "Gerar e definir uma nova senha para o usuário pelo email")
+	 @PostMapping("/{cpf}/senha")
+	 public ResponseEntity<UsuarioDTO> gerarESetarNovaSenha(@PathVariable String cpf) {
+	     Optional<Usuario> usuarioOptional = this.servico.buscarPessoaPorCpf(cpf);
 
 	     if (usuarioOptional.isPresent()) {
 	         Usuario usuario = usuarioOptional.get();

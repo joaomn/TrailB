@@ -158,6 +158,16 @@ public class UsuarioServicoImpl implements UsuarioServico {
 	    return senha.toString();
 	}
 
+	@Override
+	public Optional<Usuario> buscarPessoaPorCpf(String cpf) {
+		try {
+			return this.usuarioRepositorio.findUsuarioByEmail(cpf);
+		} catch (Exception e) {
+			System.out.println("Problema ao carregar usuario com email: " + cpf);
+			return null;
+		}
+	}
+
 	
 
 	
