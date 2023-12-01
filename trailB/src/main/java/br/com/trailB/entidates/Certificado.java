@@ -32,6 +32,8 @@ public class Certificado {
 	
 	private LocalDate dataEmissao;
 	
+	private int nota;
+	
 	public CertificadoDTO toDto() {
 		return new CertificadoDTO(this);
 	}
@@ -41,6 +43,7 @@ public class Certificado {
 		this.curso = dto.getCurso();
 		this.usuario = dto.getUsuario();
 		this.dataEmissao = dto.getDataEmissao();
+		this.nota = dto.getNota();
 		
 	}
 	
