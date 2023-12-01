@@ -32,11 +32,14 @@ public class CertificadoDTO {
 	
 	private LocalDate dataEmissao;
 	
+	private int nota;
+	
 	public CertificadoDTO(Certificado certificado) {
 		this.id = certificado.getId();
 		this.curso = certificado.getCurso();
 		this.usuario = certificado.getUsuario();
 		this.dataEmissao = certificado.getDataEmissao();
+		this.nota = certificado.getNota();
 		
 		
 	}
