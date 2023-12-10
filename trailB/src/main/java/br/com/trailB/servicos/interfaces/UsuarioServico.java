@@ -15,16 +15,10 @@ public interface UsuarioServico {
 	List<Usuario> buscartudo();
 
 	Optional<Usuario> buscarPessoa(Long id);
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
 	
 	Optional<Usuario> buscarPessoaPorEmail(String cpf);
->>>>>>> Stashed changes
-=======
 	
 	Optional<Usuario> buscarPessoaPorCpf(String cpf);
->>>>>>> 52b050793daab5f826c07d98f30adf56c59112ea
 
 	void update(Long id, UsuarioDTO usuarioDto);
 

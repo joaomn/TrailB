@@ -24,15 +24,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.trailB.entidates.Usuario;
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
 import br.com.trailB.entidates.dtos.CursoDTO;
 import br.com.trailB.entidates.dtos.LoginDTO;
->>>>>>> Stashed changes
-=======
 import br.com.trailB.entidates.dtos.CursoDTO;
->>>>>>> 52b050793daab5f826c07d98f30adf56c59112ea
 import br.com.trailB.entidates.dtos.UsuarioDTO;
 import br.com.trailB.excecoes.NaoEncontradoExcecao;
 import br.com.trailB.servicos.EmailServico;
@@ -46,23 +40,14 @@ public class UsuarioController {
 	
 	@Autowired
 	private UsuarioServicoImpl servico;
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
-	
 	@Autowired
 	private EmailServico email;
 
->>>>>>> 52b050793daab5f826c07d98f30adf56c59112ea
 
-=======
 	
-	@Autowired
-	private EmailServico email;
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
->>>>>>> Stashed changes
 	
 	@ApiOperation(value = "Persisitr dados no banco")
 	@PostMapping
@@ -122,7 +107,7 @@ public class UsuarioController {
 
 	}
 	
-	@ApiOperation(value = "Retornar por ID")
+	@ApiOperation(value = "Retornar por email")
 	@GetMapping("/email/{email}")
 	public ResponseEntity<UsuarioDTO> showbyEmail(@PathVariable String email) {
 
@@ -177,11 +162,6 @@ public class UsuarioController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(usuarioDTO);
 
 	}
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> 52b050793daab5f826c07d98f30adf56c59112ea
 	
 	 @ApiOperation(value = "Retornar todos os cursos atribuídos a um usuário por CPF")
 	    @GetMapping("/{cpf}/cursos")
@@ -207,20 +187,13 @@ public class UsuarioController {
 	 @ApiOperation(value = "Gerar e definir uma nova senha para o usuário pelo email")
 	 @PostMapping("/{emaill}/senha")
 	 public ResponseEntity<UsuarioDTO> gerarESetarNovaSenha(@PathVariable String emaill) {
-<<<<<<< HEAD
 	     Optional<Usuario> usuarioOptional = this.servico.buscarPessoaPorEmail(emaill);
 
-	     if (usuarioOptional.isPresent()) {
-	         Usuario usuario = usuarioOptional.get();
-	         String novaSenha = servico.gerarSenhaAleatoria(10); 
 	         
-=======
-	     Optional<Usuario> usuarioOptional = this.servico.buscarPessoaPorCpf(emaill);
 
 	     if (usuarioOptional.isPresent()) {
 	         Usuario usuario = usuarioOptional.get();
 	         String novaSenha = servico.gerarSenhaAleatoria(8); 
->>>>>>> 52b050793daab5f826c07d98f30adf56c59112ea
 	         usuario.setPassword(novaSenha);
 	         try {
 				servico.salvar(usuario);
@@ -247,7 +220,6 @@ public class UsuarioController {
 
 	     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(usuarioDTO);
 	 }
-<<<<<<< HEAD
 	 
 	 @ApiOperation(value = "Fazer Login no sistema")
 	 @PostMapping("/login")
@@ -283,8 +255,5 @@ public class UsuarioController {
 		 
 		
 	 }
->>>>>>> Stashed changes
-=======
->>>>>>> 52b050793daab5f826c07d98f30adf56c59112ea
 
 }

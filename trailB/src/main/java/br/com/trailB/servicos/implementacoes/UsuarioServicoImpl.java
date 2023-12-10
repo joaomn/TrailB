@@ -140,14 +140,6 @@ public class UsuarioServicoImpl implements UsuarioServico, UserDetailsService {
 	}
 
 	@Override
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-	public Optional<CursoDTO> buscarPorEmail(String email) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
-=======
-=======
->>>>>>> 52b050793daab5f826c07d98f30adf56c59112ea
 	public Optional<List<CursoDTO>> buscarCursosPorCpf(String cpf) {
 		try {
 			return this.usuarioRepositorio.findCursosByCpf(cpf)
@@ -176,11 +168,7 @@ public class UsuarioServicoImpl implements UsuarioServico, UserDetailsService {
 
 	@Override
 	public String gerarSenhaAleatoria(int length) {
-<<<<<<< HEAD
 		String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#.*";
-=======
-		String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
->>>>>>> 52b050793daab5f826c07d98f30adf56c59112ea
 	    StringBuilder senha = new StringBuilder();
 
 	    for (int i = 0; i < length; i++) {
@@ -188,27 +176,18 @@ public class UsuarioServicoImpl implements UsuarioServico, UserDetailsService {
 	        senha.append(caracteres.charAt(index));
 	    }
 
-<<<<<<< HEAD
-	    System.out.println(senha.toString());
-=======
->>>>>>> 52b050793daab5f826c07d98f30adf56c59112ea
 	    return senha.toString();
 	}
 
 	@Override
-<<<<<<< HEAD
 	public Optional<Usuario> buscarPessoaPorEmail(String cpf) {
-=======
-	public Optional<Usuario> buscarPessoaPorCpf(String cpf) {
->>>>>>> 52b050793daab5f826c07d98f30adf56c59112ea
 		try {
 			return this.usuarioRepositorio.findUsuarioByEmail(cpf);
 		} catch (Exception e) {
 			System.out.println("Problema ao carregar usuario com email: " + cpf);
 			return null;
 		}
-<<<<<<< HEAD
->>>>>>> Stashed changes
+	
 	}
 
 	@Override
@@ -230,8 +209,12 @@ public class UsuarioServicoImpl implements UsuarioServico, UserDetailsService {
 		
 		
 
-=======
->>>>>>> 52b050793daab5f826c07d98f30adf56c59112ea
+	}
+
+	@Override
+	public Optional<Usuario> buscarPessoaPorCpf(String cpf) {
+		// TODO Auto-generated method stub
+		return Optional.empty();
 	}
 
 	

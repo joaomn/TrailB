@@ -35,16 +35,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
-@Table(name = "Clientes")
->>>>>>> 52b050793daab5f826c07d98f30adf56c59112ea
-public class Usuario {	
-=======
 @Table(name = "Clientes")
 public class Usuario implements UserDetails, Serializable {	
->>>>>>> Stashed changes
 	
 	
 	private static final long serialVersionUID = 1L;
@@ -154,3 +146,4 @@ public class Usuario implements UserDetails, Serializable {
 	}
 
 }
+
