@@ -3,6 +3,7 @@ package br.com.trailB.servicos.implementacoes;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -12,10 +13,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.com.trailB.entidates.Curso;
 import br.com.trailB.entidates.Usuario;
 import br.com.trailB.entidates.dtos.CursoDTO;
 import br.com.trailB.entidates.dtos.UsuarioDTO;
 import br.com.trailB.excecoes.NaoEncontradoExcecao;
+import br.com.trailB.repositorios.CursoRepositorio;
 import br.com.trailB.repositorios.UsuarioRepositorio;
 import br.com.trailB.servicos.interfaces.UsuarioServico;
 
@@ -24,6 +27,9 @@ public class UsuarioServicoImpl implements UsuarioServico, UserDetailsService {
 
 	@Autowired
 	private UsuarioRepositorio usuarioRepositorio;
+	
+	@Autowired
+	private CursoRepositorio cursoRepositorio;
 
 	@Override
 	public void salvar(Usuario usuario) throws NaoEncontradoExcecao {
@@ -134,11 +140,14 @@ public class UsuarioServicoImpl implements UsuarioServico, UserDetailsService {
 	}
 
 	@Override
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 	public Optional<CursoDTO> buscarPorEmail(String email) {
 		// TODO Auto-generated method stub
 		return Optional.empty();
 =======
+=======
+>>>>>>> 52b050793daab5f826c07d98f30adf56c59112ea
 	public Optional<List<CursoDTO>> buscarCursosPorCpf(String cpf) {
 		try {
 			return this.usuarioRepositorio.findCursosByCpf(cpf)
@@ -167,7 +176,11 @@ public class UsuarioServicoImpl implements UsuarioServico, UserDetailsService {
 
 	@Override
 	public String gerarSenhaAleatoria(int length) {
+<<<<<<< HEAD
 		String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#.*";
+=======
+		String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+>>>>>>> 52b050793daab5f826c07d98f30adf56c59112ea
 	    StringBuilder senha = new StringBuilder();
 
 	    for (int i = 0; i < length; i++) {
@@ -175,18 +188,26 @@ public class UsuarioServicoImpl implements UsuarioServico, UserDetailsService {
 	        senha.append(caracteres.charAt(index));
 	    }
 
+<<<<<<< HEAD
 	    System.out.println(senha.toString());
+=======
+>>>>>>> 52b050793daab5f826c07d98f30adf56c59112ea
 	    return senha.toString();
 	}
 
 	@Override
+<<<<<<< HEAD
 	public Optional<Usuario> buscarPessoaPorEmail(String cpf) {
+=======
+	public Optional<Usuario> buscarPessoaPorCpf(String cpf) {
+>>>>>>> 52b050793daab5f826c07d98f30adf56c59112ea
 		try {
 			return this.usuarioRepositorio.findUsuarioByEmail(cpf);
 		} catch (Exception e) {
 			System.out.println("Problema ao carregar usuario com email: " + cpf);
 			return null;
 		}
+<<<<<<< HEAD
 >>>>>>> Stashed changes
 	}
 
@@ -209,6 +230,8 @@ public class UsuarioServicoImpl implements UsuarioServico, UserDetailsService {
 		
 		
 
+=======
+>>>>>>> 52b050793daab5f826c07d98f30adf56c59112ea
 	}
 
 	

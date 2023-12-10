@@ -1,0 +1,16 @@
+# Use a imagem oficial do MySQL
+FROM mysql:latest
+
+# Defina as variáveis de ambiente do MySQL
+ENV MYSQL_ROOT_PASSWORD=1234
+ENV MYSQL_DATABASE=trailb
+ENV MYSQL_USER=admntrailb
+ENV MYSQL_PASSWORD=trailb1.2.3
+
+
+
+# Exponha a porta padrão do MySQL
+EXPOSE 3307
+
+# Comando para executar o servidor MySQL
+CMD ["mysqld"]

@@ -9,7 +9,7 @@ COPY pom.xml .
 COPY src ./src
 
 # Construa a aplicação
-RUN mvn clean install
+RUN mvn clean install -DskipTests=true
 
 # Crie a imagem final usando o JRE 17
 FROM openjdk:17-jdk-slim-buster

@@ -123,5 +123,22 @@ public class CertificadoController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(CertificadoDTO);
 
 	}
+	
+	@ApiOperation(value = "gerar pdf de certificaod e entregar via email")
+	@PostMapping("/entrega/{id}")
+	public ResponseEntity<CertificadoDTO> entregarCertificado(@PathVariable Long id){
+		
+		Optional<Certificado> Certificado = this.servico.buscarCertificado(id);
+		
+		if(Certificado.isPresent()) {
+			servico.gerareEnviarCertificado(Certificado.get());
+			return ResponseEntity.status(HttpStatus.OK).body(Certificado.get().toDto());
+		}
+		CertificadoDTO CertificadoDTO = new CertificadoDTO();
+		CertificadoDTO.setMessage("Certificado não encontrado");
+
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(CertificadoDTO);
+		
+	}
 
 }

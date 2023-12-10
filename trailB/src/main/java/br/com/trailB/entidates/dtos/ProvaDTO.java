@@ -2,6 +2,7 @@ package br.com.trailB.entidates.dtos;
 
 import java.util.List;
 
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,15 +28,14 @@ public class ProvaDTO {
 	
 	private int pontuacao;
 	
-	@NotEmpty
-	@OneToMany
+	@OneToMany(fetch = FetchType.LAZY)
 	private List<Pergunta> perguntas;
 	
 	@OneToOne
 	private Curso curso;
 	
-	@OneToOne
-	private Usuario usuario;
+//	@OneToOne
+//	private Usuario usuario;
 	
 	private String message;
 	
@@ -44,7 +44,7 @@ public class ProvaDTO {
 		this.curso = prova.getCurso();
 		this.perguntas = prova.getPerguntas();
 		this.pontuacao = prova.getPontuacao();
-		this.usuario = prova.getUsuario();
+//		this.usuario = prova.getUsuario();
 		
 	}
 

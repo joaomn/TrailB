@@ -8,10 +8,13 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -32,7 +35,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+<<<<<<< HEAD
 <<<<<<< Updated upstream
+=======
+@Table(name = "Clientes")
+>>>>>>> 52b050793daab5f826c07d98f30adf56c59112ea
 public class Usuario {	
 =======
 @Table(name = "Clientes")
@@ -52,12 +59,12 @@ public class Usuario implements UserDetails, Serializable {
 	
 	@Email
 	@NotBlank(message = "Campo email requerido")
-	@Column(name = "Email")
+	@Column(name = "Email", unique = true)
 	private String email;
 	
 	@CPF
 	@NotBlank(message = "Campo cpf requerido")
-	@Column(name = "CPF")
+	@Column(name = "CPF", unique = true)
 	private String cpf;
 	
 	@Column(name = "Setor")
@@ -71,13 +78,15 @@ public class Usuario implements UserDetails, Serializable {
 	@NotBlank(message = "campo password requerido")
 	private String password;
 	
+	@Column(name = "classificacao")
 	private int rank;
 	
 	private String foto;
 	
 	private boolean adm;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "usuario_curso")
 	private List<Curso> cursos;
 	
 	public UsuarioDTO toDto() {

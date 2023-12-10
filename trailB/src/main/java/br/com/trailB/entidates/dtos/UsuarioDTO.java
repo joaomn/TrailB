@@ -4,9 +4,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -35,12 +37,12 @@ public class UsuarioDTO {
 	
 	@Email
 	@NotBlank(message = "Campo email requerido")
-	@Column(name = "Email")
+	@Column(name = "Email", unique = true)
 	private String email;
 	
 	@CPF
 	@NotBlank(message = "Campo cpf requerido")
-	@Column(name = "CPF")
+	@Column(name = "CPF", unique = true)
 	private String cpf;
 	
 	@Column(name = "Setor")
@@ -62,7 +64,8 @@ public class UsuarioDTO {
 	
 	private boolean adm;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "usuario_curso")
 	private List<Curso> cursos;
 	
 	public UsuarioDTO(Usuario usuario) {

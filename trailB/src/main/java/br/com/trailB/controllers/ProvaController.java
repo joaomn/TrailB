@@ -22,6 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.trailB.entidates.Prova;
 import br.com.trailB.entidates.dtos.ProvaDTO;
+import br.com.trailB.entidates.dtos.RespostaDTO;
+import br.com.trailB.entidates.dtos.ResultadoProvaDTO;
+import br.com.trailB.excecoes.NaoEncontradoExcecao;
 import br.com.trailB.servicos.implementacoes.ProvaServicoImpl;
 import io.swagger.annotations.ApiOperation;
 
@@ -123,6 +126,40 @@ public class ProvaController {
 
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ProvaDTO);
 
+	}
+	
+	@ApiOperation(value = "Responder prova")
+	@PostMapping("/{id}/responder")
+	public ResponseEntity<ResultadoProvaDTO> responderProva(@PathVariable Long id, @RequestBody RespostaDTO respostasDTO) {
+	    Optional<Prova> provaOptional = this.servico.buscarProva(id);
+
+	    if (provaOptional.isPresent()) {
+	        Prova prova = provaOptional.get();
+
+	        int respostasCorretas =  this.servico.contarRespostasCorretas(prova.getPerguntas(), respostasDTO.getRespostas());
+
+	        prova.setPontuacao(respostasCorretas);
+	        
+	        
+
+	        try {
+				this.servico.update(id, prova.toDto());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+	        ResultadoProvaDTO resultadoProvaDTO = new ResultadoProvaDTO();
+	        resultadoProvaDTO.setPontuacao(respostasCorretas);
+	        resultadoProvaDTO.setMessage("Prova respondida com sucesso!");
+
+	        return ResponseEntity.status(HttpStatus.OK).body(resultadoProvaDTO);
+	    } else {
+	        ResultadoProvaDTO resultadoProvaDTO = new ResultadoProvaDTO();
+	        resultadoProvaDTO.setMessage("Prova não encontrada");
+
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(resultadoProvaDTO);
+	    }
 	}
 
 }

@@ -15,16 +15,25 @@ public interface UsuarioServico {
 	List<Usuario> buscartudo();
 
 	Optional<Usuario> buscarPessoa(Long id);
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 	
 	Optional<Usuario> buscarPessoaPorEmail(String cpf);
 >>>>>>> Stashed changes
+=======
+	
+	Optional<Usuario> buscarPessoaPorCpf(String cpf);
+>>>>>>> 52b050793daab5f826c07d98f30adf56c59112ea
 
-	 void  update(Long id, UsuarioDTO usuarioDto);
+	void update(Long id, UsuarioDTO usuarioDto);
 
 	void delete(Long id) throws NaoEncontradoExcecao;
 
-	Optional<CursoDTO> buscarPorEmail(String email);
+	public void adicionarCursos(Long idUsuario, List<Long> idsCursos)throws NaoEncontradoExcecao;
+
+	Optional<List<CursoDTO>> buscarCursosPorCpf(String cpf);
+	
+	public String gerarSenhaAleatoria(int length);
 
 }

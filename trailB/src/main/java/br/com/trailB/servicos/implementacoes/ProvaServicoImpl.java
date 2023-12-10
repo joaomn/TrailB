@@ -1,15 +1,22 @@
 package br.com.trailB.servicos.implementacoes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.trailB.entidates.Curso;
+import br.com.trailB.entidates.Pergunta;
 import br.com.trailB.entidates.Prova;
+import br.com.trailB.entidates.Usuario;
 import br.com.trailB.entidates.dtos.ProvaDTO;
 import br.com.trailB.excecoes.NaoEncontradoExcecao;
+import br.com.trailB.repositorios.CursoRepositorio;
+import br.com.trailB.repositorios.PerguntaRepositorio;
 import br.com.trailB.repositorios.ProvaRepositorio;
+import br.com.trailB.repositorios.UsuarioRepositorio;
 import br.com.trailB.servicos.interfaces.ProvaServico;
 
 @Service
@@ -17,13 +24,23 @@ public class ProvaServicoImpl implements ProvaServico {
 
 	@Autowired
 	private ProvaRepositorio provaRepositorio;
+	
+	@Autowired
+	private UsuarioRepositorio usuarioRepo;
+	@Autowired
+	private CursoRepositorio cursoRepo;
+	@Autowired
+	private PerguntaRepositorio perguntarepo;
 
 	@Override
 	public void salvar(Prova prova) throws NaoEncontradoExcecao {
+			
 		try {
 			this.provaRepositorio.save(prova);
 
 		} catch (Exception e) {
+			System.out.println("estourouaqui visseeee");
+			System.out.println(e.getStackTrace());
 			throw new NaoEncontradoExcecao("Prova nao pode ser persistido");
 		}
 	}
@@ -62,9 +79,9 @@ public class ProvaServicoImpl implements ProvaServico {
 					obj.setPerguntas(provaDTO.getPerguntas());
 				}
 
-				if (provaDTO.getUsuario() != null) {
-					obj.setUsuario(provaDTO.getUsuario());
-				}
+//				if (provaDTO.getUsuario() != null) {
+//					obj.setUsuario(provaDTO.getUsuario());
+//				}
 				if (provaDTO.getPontuacao() != 0) {
 					obj.setPontuacao(provaDTO.getPontuacao());
 				}
@@ -91,5 +108,21 @@ public class ProvaServicoImpl implements ProvaServico {
 			throw new NaoEncontradoExcecao("Não foi possivel deletar a prova");
 		}
 	}
+
+	@Override
+	public int contarRespostasCorretas(List<Pergunta> perguntas, List<String> respostas) {
+		 int respostasCorretas = 0;
+
+	        for (int i = 0; i < perguntas.size(); i++) {
+	            Pergunta pergunta = perguntas.get(i);
+	            String respostaAluno = respostas.get(i);
+
+	            if (respostaAluno.equalsIgnoreCase(pergunta.getAlternativaCorreta())) {
+	                respostasCorretas++;
+	            }
+	        }
+
+	        return respostasCorretas;
+	    }
 
 }
