@@ -2,6 +2,7 @@ package br.com.trailB.entidates;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,8 +42,10 @@ public class Curso {
 	@NotBlank(message = "Campo area requerido")
 	@Column(name = "area")
 	private String area;
+	
+	private String foto;
 
-	@OneToMany	
+	@OneToMany(cascade = CascadeType.ALL)	
 	private List<Aula> aulas;
 
 	public CursoDTO toDto() {
@@ -56,6 +59,7 @@ public class Curso {
 		this.id = dto.getId();
 		this.nome = dto.getNome();
 		this.area = dto.getArea();
+		this.foto = dto.getFoto();
 
 	}
 

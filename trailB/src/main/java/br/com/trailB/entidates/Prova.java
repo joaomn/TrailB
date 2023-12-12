@@ -2,6 +2,7 @@ package br.com.trailB.entidates;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -28,10 +29,10 @@ public class Prova {
 	
 	private int pontuacao;
 	
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Pergunta> perguntas;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private Curso curso;
 	
 //	@OneToOne

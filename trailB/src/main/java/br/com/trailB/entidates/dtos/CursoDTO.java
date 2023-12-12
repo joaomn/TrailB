@@ -41,6 +41,8 @@ public class CursoDTO {
 	
 	@OneToMany
 	private List<Aula> aulas;
+	
+	private String foto;
 
 	private String menssage;
 	
@@ -51,6 +53,7 @@ public class CursoDTO {
 		this.id = curso.getId();
 		this.nome = curso.getNome();
 		this.area = curso.getArea();
+		this.foto = curso.getFoto();
 		
 	}
 

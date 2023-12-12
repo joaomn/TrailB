@@ -13,6 +13,8 @@ public class RespostaDTO {
 	
 	private List<String> respostas;
 	
+	private String email;
+	
 	
 
 }

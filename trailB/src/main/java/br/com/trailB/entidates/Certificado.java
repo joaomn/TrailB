@@ -2,6 +2,7 @@ package br.com.trailB.entidates;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,10 +25,10 @@ public class Certificado {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private Curso curso;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private Usuario usuario;
 	
 	private LocalDate dataEmissao;

@@ -1,5 +1,7 @@
 package br.com.trailB.controllers;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,12 +22,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.trailB.entidates.Certificado;
 import br.com.trailB.entidates.Prova;
+import br.com.trailB.entidates.Usuario;
 import br.com.trailB.entidates.dtos.ProvaDTO;
 import br.com.trailB.entidates.dtos.RespostaDTO;
 import br.com.trailB.entidates.dtos.ResultadoProvaDTO;
 import br.com.trailB.excecoes.NaoEncontradoExcecao;
+import br.com.trailB.servicos.implementacoes.CertificadoServicoImpl;
 import br.com.trailB.servicos.implementacoes.ProvaServicoImpl;
+import br.com.trailB.servicos.implementacoes.UsuarioServicoImpl;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
@@ -35,6 +41,12 @@ public class ProvaController {
 	
 	@Autowired
 	private ProvaServicoImpl servico;
+	
+	@Autowired
+	private UsuarioServicoImpl userServico;
+	
+	@Autowired
+	private CertificadoServicoImpl certificadoServco;
 	
 	@ApiOperation(value = "Persisitr dados no banco")
 	@PostMapping
@@ -132,22 +144,56 @@ public class ProvaController {
 	@PostMapping("/{id}/responder")
 	public ResponseEntity<ResultadoProvaDTO> responderProva(@PathVariable Long id, @RequestBody RespostaDTO respostasDTO) {
 	    Optional<Prova> provaOptional = this.servico.buscarProva(id);
+	    Optional<Usuario> userOpt = this.userServico.buscarPessoaPorEmail(respostasDTO.getEmail());
+	    
+	    
 
-	    if (provaOptional.isPresent()) {
+	    if (provaOptional.isPresent()&& userOpt.isPresent()) {
 	        Prova prova = provaOptional.get();
 
-	        int respostasCorretas =  this.servico.contarRespostasCorretas(prova.getPerguntas(), respostasDTO.getRespostas());
+	        int respostasCorretas = 0;
+			try {
+				respostasCorretas = this.servico.contarRespostasCorretas(prova.getPerguntas(), respostasDTO.getRespostas());
+			} catch (NaoEncontradoExcecao e1) {
+				 ResultadoProvaDTO resultadoProvaDTO = new ResultadoProvaDTO();
+			        resultadoProvaDTO.setMessage("Numero de respostas menor que o de perguntas");
 
-	        prova.setPontuacao(respostasCorretas);
-	        
-	        
-
-	        try {
-				this.servico.update(id, prova.toDto());
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resultadoProvaDTO);
 			}
+
+	        int rankNovo = userOpt.get().getRank() + respostasCorretas;
+	        
+	        userOpt.get().setRank(rankNovo);
+	        
+	        
+	        
+	        try {
+				this.userServico.update(userOpt.get().getId(), userOpt.get().toDto());
+				
+			} catch (Exception e) {
+				ResultadoProvaDTO resultadoProvaDTO = new ResultadoProvaDTO();
+		        resultadoProvaDTO.setMessage("Falha ao responder prova");
+
+		        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resultadoProvaDTO);
+			}
+	        
+	        if(respostasCorretas >= 5) {
+	        	Certificado certificado = new Certificado();
+	        certificado.setCurso(prova.getCurso());
+	        certificado.setUsuario(userOpt.get());
+	        certificado.setNota(respostasCorretas);
+	        LocalDateTime agora = LocalDateTime.now();
+	        LocalDate data = agora.toLocalDate();
+	        certificado.setDataEmissao(data);
+	        	try {
+					this.certificadoServco.salvar(certificado);
+				} catch (NaoEncontradoExcecao e) {
+					ResultadoProvaDTO resultadoProvaDTO = new ResultadoProvaDTO();
+			        resultadoProvaDTO.setMessage("Falha ao gerar certificado");
+
+			        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resultadoProvaDTO);
+				}
+	        }
 
 	        ResultadoProvaDTO resultadoProvaDTO = new ResultadoProvaDTO();
 	        resultadoProvaDTO.setPontuacao(respostasCorretas);

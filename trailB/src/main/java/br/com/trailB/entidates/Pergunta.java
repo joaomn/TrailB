@@ -3,6 +3,7 @@ package br.com.trailB.entidates;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,7 +38,7 @@ public class Pergunta {
 	@NotBlank(message = "alternativa correta e obrigatorio")
 	private String alternativaCorreta;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private Curso curso;
 	
 	public PerguntaDTO toDto() {

@@ -110,8 +110,9 @@ public class ProvaServicoImpl implements ProvaServico {
 	}
 
 	@Override
-	public int contarRespostasCorretas(List<Pergunta> perguntas, List<String> respostas) {
-		 int respostasCorretas = 0;
+	public int contarRespostasCorretas(List<Pergunta> perguntas, List<String> respostas) throws NaoEncontradoExcecao {
+		try {
+			int respostasCorretas = 0;
 
 	        for (int i = 0; i < perguntas.size(); i++) {
 	            Pergunta pergunta = perguntas.get(i);
@@ -123,6 +124,11 @@ public class ProvaServicoImpl implements ProvaServico {
 	        }
 
 	        return respostasCorretas;
+			
+		} catch (Exception e) {
+			throw new NaoEncontradoExcecao("numero de respostas menor que numero de perguntas");
+		}
+		 
 	    }
 
 }

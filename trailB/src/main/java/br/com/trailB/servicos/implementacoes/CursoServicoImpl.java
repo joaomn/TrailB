@@ -72,6 +72,10 @@ public class CursoServicoImpl implements CursoServico {
 				if (cursoDTO.getAulas() != null) {
 					obj.setAulas(cursoDTO.getAulas());
 				}
+				
+				if(cursoDTO.getFoto() != null) {
+					obj.setFoto(cursoDTO.getFoto());
+				}
 
 				this.cursoRepositorio.save(obj);
 			}
