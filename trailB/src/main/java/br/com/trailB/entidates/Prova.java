@@ -29,10 +29,10 @@ public class Prova {
 	
 	private int pontuacao;
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY)
 	private List<Pergunta> perguntas;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne()
 	private Curso curso;
 	
 //	@OneToOne

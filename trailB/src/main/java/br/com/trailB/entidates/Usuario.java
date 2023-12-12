@@ -78,7 +78,7 @@ public class Usuario implements UserDetails, Serializable {
 	
 	private boolean adm;
 	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "usuario_curso")
 	private List<Curso> cursos;
 	

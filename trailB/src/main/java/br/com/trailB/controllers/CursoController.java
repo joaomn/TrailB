@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.trailB.entidates.Curso;
+import br.com.trailB.entidates.dtos.AulaDTO;
 import br.com.trailB.entidates.dtos.CursoDTO;
 import br.com.trailB.excecoes.NaoEncontradoExcecao;
 import br.com.trailB.servicos.implementacoes.CursoServicoImpl;
@@ -136,5 +137,15 @@ public class CursoController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
+	
+	@ApiOperation(value = "Retornar todas as aulas atribuídas a um curso por ID")
+	@GetMapping("/cursos/aulas/{id}")
+	public ResponseEntity<List<AulaDTO>> getAulasById(@PathVariable Long id) {
+
+	    Optional<List<AulaDTO>> aulas = this.servico.buscarAulasPorID(id);
+
+	    return aulas.map(aulaList -> ResponseEntity.status(HttpStatus.OK).body(aulaList))
+	            .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+	}
 
 }

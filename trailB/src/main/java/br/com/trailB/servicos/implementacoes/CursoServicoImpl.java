@@ -2,12 +2,14 @@ package br.com.trailB.servicos.implementacoes;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.trailB.entidates.Aula;
 import br.com.trailB.entidates.Curso;
+import br.com.trailB.entidates.dtos.AulaDTO;
 import br.com.trailB.entidates.dtos.CursoDTO;
 import br.com.trailB.excecoes.NaoEncontradoExcecao;
 import br.com.trailB.repositorios.AulaRepositorio;
@@ -120,6 +122,17 @@ public class CursoServicoImpl implements CursoServico {
 			throw new NaoEncontradoExcecao("Problema para adicionar aulas");
 		}
 		
+	}
+
+	@Override
+	public Optional<List<AulaDTO>> buscarAulasPorID(Long id) {
+		try {
+		    return this.cursoRepositorio.findAulasById(id)
+		            .map(aulas -> aulas.stream().map(Aula::toDto).collect(Collectors.toList()));
+		} catch (Exception e) {
+		    System.out.println("Problema ao carregar Aulas do Usuario");
+		    return null;
+		}
 	}
 
 }

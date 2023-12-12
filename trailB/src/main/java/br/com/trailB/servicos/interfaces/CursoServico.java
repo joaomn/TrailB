@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import br.com.trailB.entidates.Curso;
+import br.com.trailB.entidates.dtos.AulaDTO;
 import br.com.trailB.entidates.dtos.CursoDTO;
 import br.com.trailB.excecoes.NaoEncontradoExcecao;
 
@@ -20,4 +21,6 @@ public interface CursoServico {
 	void delete(Long id) throws NaoEncontradoExcecao;
 	
 	public void adicionarAulas(Long idCurso, List<Long> idsAulas)throws NaoEncontradoExcecao;
+	
+	Optional<List<AulaDTO>> buscarAulasPorID(Long id);
 }

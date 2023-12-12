@@ -25,10 +25,10 @@ public class Certificado {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne()
 	private Curso curso;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne()
 	private Usuario usuario;
 	
 	private LocalDate dataEmissao;
