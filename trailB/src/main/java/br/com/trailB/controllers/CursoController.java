@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.trailB.entidates.Curso;
 import br.com.trailB.entidates.dtos.CursoDTO;
+import br.com.trailB.excecoes.NaoEncontradoExcecao;
 import br.com.trailB.servicos.implementacoes.CursoServicoImpl;
 import io.swagger.annotations.ApiOperation;
 
@@ -110,6 +111,7 @@ public class CursoController {
 	public ResponseEntity<CursoDTO> update(@Valid @PathVariable Long id, @RequestBody CursoDTO dto) {
 
 		Optional<Curso> Curso = this.servico.buscarCurso(id);
+		
 
 		if (Curso.isPresent()) {
 			servico.update(id, dto);
@@ -123,5 +125,16 @@ public class CursoController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(CursoDTO);
 
 	}
+	
+	@ApiOperation(value = "Adicionar aulas a um curso")
+    @PostMapping("/{id}/aulas")
+    public ResponseEntity<String> adicionarCursos(@PathVariable Long id, @RequestBody List<Long> idsAulas) {
+        try {
+            servico.adicionarAulas(id, idsAulas);
+            return ResponseEntity.status(HttpStatus.OK).body("Aulas adicionadas com sucesso.");
+        } catch (NaoEncontradoExcecao e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
 
 }

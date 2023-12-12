@@ -5,14 +5,17 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 
-import br.com.trailB.entidates.dtos.CursoDTO;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
+import br.com.trailB.entidates.dtos.CursoDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -45,7 +48,8 @@ public class Curso {
 	
 	private String foto;
 
-	@OneToMany(cascade = CascadeType.ALL)	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	
 	private List<Aula> aulas;
 
 	public CursoDTO toDto() {

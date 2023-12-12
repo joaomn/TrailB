@@ -18,4 +18,6 @@ public interface CursoServico {
 	 void  update(Long id, CursoDTO cursoDTO);
 
 	void delete(Long id) throws NaoEncontradoExcecao;
+	
+	public void adicionarAulas(Long idCurso, List<Long> idsAulas)throws NaoEncontradoExcecao;
 }

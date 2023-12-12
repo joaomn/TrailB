@@ -6,9 +6,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.trailB.entidates.Aula;
 import br.com.trailB.entidates.Curso;
 import br.com.trailB.entidates.dtos.CursoDTO;
 import br.com.trailB.excecoes.NaoEncontradoExcecao;
+import br.com.trailB.repositorios.AulaRepositorio;
 import br.com.trailB.repositorios.CursoRepositorio;
 import br.com.trailB.servicos.interfaces.CursoServico;
 
@@ -17,6 +19,9 @@ public class CursoServicoImpl implements CursoServico {
 
 	@Autowired
 	private CursoRepositorio cursoRepositorio;
+	
+	@Autowired
+	private AulaRepositorio aulaRepositorio;
 
 	@Override
 	public void salvar(Curso curso) throws NaoEncontradoExcecao {
@@ -100,6 +105,21 @@ public class CursoServicoImpl implements CursoServico {
 			throw new NaoEncontradoExcecao("Não foi possivel deletar o curso");
 		}
 
+	}
+
+	@Override
+	public void adicionarAulas(Long idCurso, List<Long> idsAulas) throws NaoEncontradoExcecao {
+		Optional<Curso> objCurso = this.cursoRepositorio.findById(idCurso);
+		
+		if(objCurso.isPresent()) {
+			Curso curso = objCurso.get();
+			List<Aula> aulas = this.aulaRepositorio.findAllById(idsAulas);
+			curso.getAulas().addAll(aulas);
+			this.cursoRepositorio.save(curso);
+		}else {
+			throw new NaoEncontradoExcecao("Problema para adicionar aulas");
+		}
+		
 	}
 
 }
