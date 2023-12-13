@@ -131,4 +131,14 @@ public class ProvaServicoImpl implements ProvaServico {
 		 
 	    }
 
+	@Override
+	public Optional<Prova> findByCursoId(Long cursoId) {
+		try {
+			return this.provaRepositorio.findByCursoId(cursoId);
+		} catch (Exception e) {
+			System.out.println("Problema ao carregar aula com id: " + cursoId);
+			return null;
+		}
+	}
+
 }

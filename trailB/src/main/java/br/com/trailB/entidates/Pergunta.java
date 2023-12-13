@@ -38,7 +38,7 @@ public class Pergunta {
 	@NotBlank(message = "alternativa correta e obrigatorio")
 	private String alternativaCorreta;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne()
 	private Curso curso;
 	
 	public PerguntaDTO toDto() {

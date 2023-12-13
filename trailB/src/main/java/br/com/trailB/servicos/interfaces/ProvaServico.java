@@ -21,5 +21,7 @@ public interface ProvaServico {
 	void delete(Long id) throws NaoEncontradoExcecao;
 	
 	 int contarRespostasCorretas(List<Pergunta> perguntas, List<String> respostas) throws NaoEncontradoExcecao;
+	 
+	Optional<Prova> findByCursoId(Long cursoId);
 
 }

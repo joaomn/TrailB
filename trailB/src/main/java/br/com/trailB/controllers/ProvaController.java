@@ -207,5 +207,15 @@ public class ProvaController {
 	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(resultadoProvaDTO);
 	    }
 	}
+	
+	 @GetMapping("/curso/{cursoId}")
+	    public ResponseEntity<Prova> getProvaByCursoId(@PathVariable Long cursoId) {
+	        Optional<Prova> prova = servico.findByCursoId(cursoId);
+	        if (prova.isPresent()) {
+	            return ResponseEntity.ok(prova.get());
+	        } else {
+	            return ResponseEntity.notFound().build();
+	        }
+	    }
 
 }
