@@ -16,7 +16,7 @@ public interface CertificadoRepositorio extends JpaRepository<Certificado, Long>
 	
 		Optional<List<Certificado>> findByDataEmissao(LocalDate data);
 		
-		Optional<List<Certificado>> findByUsuario(Usuario usuario);
+		Optional<List<Certificado>> findByUsuarioId(Long usuarioId);
 		
 		Optional<List<Certificado>> findByCurso(Curso curso);
 		

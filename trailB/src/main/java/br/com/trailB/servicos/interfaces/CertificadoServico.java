@@ -18,5 +18,7 @@ public interface CertificadoServico {
 	 void  update(Long id, CertificadoDTO certificadoDTO);
 
 	void delete(Long id) throws NaoEncontradoExcecao;
+	
+	Optional<List<Certificado>> obterCertificadosPorUsuario(Long usuarioId);
 
 }

@@ -3,6 +3,7 @@ package br.com.trailB.servicos.implementacoes;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import br.com.trailB.entidates.Aula;
 import br.com.trailB.entidates.Certificado;
 import br.com.trailB.entidates.dtos.CertificadoDTO;
 import br.com.trailB.excecoes.NaoEncontradoExcecao;
@@ -164,5 +166,18 @@ public class CertificadoServicoImpl implements CertificadoServico {
 	            e.printStackTrace();
 	        }
 	    }
+
+	@Override
+	public Optional<List<Certificado>> obterCertificadosPorUsuario(Long usuarioId) {
+		 try {
+		        return this.caertificadoRepositorio.findByUsuarioId(usuarioId);
+		    } catch (Exception e) {
+		        System.out.println("Problema ao carregar Certificados do Usuario");
+		        e.printStackTrace();
+		        return Optional.empty();
+		    }
+	}
+
+	
 
 }

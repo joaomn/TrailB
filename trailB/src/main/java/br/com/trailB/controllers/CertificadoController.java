@@ -140,5 +140,18 @@ public class CertificadoController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(CertificadoDTO);
 		
 	}
+	
+	@ApiOperation(value = "Retornar certificados por usuario id")
+	@GetMapping("/usuario/{usuarioId}")
+	public ResponseEntity<List<CertificadoDTO>> obterCertificadosPorUsuario(@PathVariable Long usuarioId) {
+	    Optional<List<Certificado>> certificados = this.servico.obterCertificadosPorUsuario(usuarioId);
+
+	    if (certificados.isPresent()) {
+	        List<CertificadoDTO> certificadoDTOs = certificados.get().stream().map(Certificado::toDto).collect(Collectors.toList());
+	        return ResponseEntity.status(HttpStatus.OK).body(certificadoDTOs);
+	    }
+
+	    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ArrayList<>());
+	}
 
 }
