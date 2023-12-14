@@ -168,7 +168,7 @@ public class ProvaController {
 	        
 	        
 	        try {
-				this.userServico.update(userOpt.get().getId(), userOpt.get().toDto());
+				this.userServico.updateRank(userOpt.get().getId(), userOpt.get().toDto());
 				
 			} catch (Exception e) {
 				ResultadoProvaDTO resultadoProvaDTO = new ResultadoProvaDTO();

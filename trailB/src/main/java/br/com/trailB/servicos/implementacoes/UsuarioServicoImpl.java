@@ -217,6 +217,28 @@ public class UsuarioServicoImpl implements UsuarioServico, UserDetailsService {
 		return Optional.empty();
 	}
 
+	@Override
+	public void updateRank(Long id, UsuarioDTO usuarioDto) {
+		try {
+			Optional<Usuario> objUsuario = this.usuarioRepositorio.findById(id);
+			if (objUsuario.isPresent()) {
+				Usuario obj = objUsuario.get();
+				
+				
+				if(usuarioDto.getRank() != 0) {
+					obj.setRank(usuarioDto.getRank());
+				}
+				
+			
+				
+				this.usuarioRepositorio.save(obj);
+			}
+
+		} catch (Exception e) {
+			System.out.println("problema a nivel de service para alterar usuario");
+		}
+	}
+
 	
 
 }

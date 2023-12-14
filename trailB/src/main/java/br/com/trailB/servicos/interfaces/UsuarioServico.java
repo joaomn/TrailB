@@ -29,5 +29,6 @@ public interface UsuarioServico {
 	Optional<List<CursoDTO>> buscarCursosPorCpf(String cpf);
 	
 	public String gerarSenhaAleatoria(int length);
+	public  void updateRank(Long id, UsuarioDTO usuarioDto);
 
 }

@@ -33,8 +33,16 @@ public class CertificadoServicoImpl implements CertificadoServico {
 
 	@Override
 	public void salvar(Certificado certificado) throws NaoEncontradoExcecao {
+		
 		try {
-			this.caertificadoRepositorio.save(certificado);
+			Optional<Certificado> certificadoObj = this.caertificadoRepositorio.findByUsuarioIdAndCursoId(certificado.getUsuario().getId(), certificado.getCurso().getId());
+			if (certificadoObj.isPresent()) {
+	            Certificado certi = certificadoObj.get();
+	            certi.setNota(certificado.getNota()); 
+	            this.caertificadoRepositorio.save(certi);
+	        } else {
+	            this.caertificadoRepositorio.save(certificado);
+	        }
 
 		} catch (Exception e) {
 			throw new NaoEncontradoExcecao("Certificado nao pode ser persistido");
