@@ -16,7 +16,7 @@ API de gerenciamento de uma plataforma de ensino, onde ela faz todo o gerenciame
 
 ## Estrutura do Projeto
 
-O projeto está estruturado no padrao MVC, utilizando os conceitos do SOLID e está dividido em:
+O projeto está estruturado no padrao monolitico estruturado em camadas, utilizando os conceitos do SOLID e está dividido em:
 
 > Pcacote de classes de entidades
 > Pacote de classes de controller
